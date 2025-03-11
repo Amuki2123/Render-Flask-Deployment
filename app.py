@@ -4,6 +4,7 @@ import pickle
 from prophet import Prophet
 from flask_cors import CORS
 import logging
+from prophet.serialize import model_from_json
 import matplotlib.pyplot as plt
 import io
 import base64
