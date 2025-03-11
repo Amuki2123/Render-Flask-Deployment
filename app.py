@@ -20,19 +20,19 @@ MODELS = {
     'juba': {
         'Prophet': model_from_json(open('juba_prophet_model.json', 'r').read()),
         'ARIMA': pickle.load(open('juba_arima_model.pkl', 'rb')),
-        'NeuralProphet': pickle.load(open('juba_neuralprophet_model.pkl', 'rb')),
+        'NeuralProphet': pickle.load(open('juba_np_model.pkl', 'rb')),
         'ExponentialSmoothing': pickle.load(open('juba_es_model.pkl', 'rb'))
     },
     'yei': {
         'Prophet': model_from_json(open('yei_prophet_model.json', 'r').read()),
         'ARIMA': pickle.load(open('yei_arima_model.pkl', 'rb')),
-        'NeuralProphet': pickle.load(open('yei_neuralprophet_model.pkl', 'rb')),
+        'NeuralProphet': pickle.load(open('yei_np_model.pkl', 'rb')),
         'ExponentialSmoothing': pickle.load(open('yei_es_model.pkl', 'rb'))
     },
     'wau': {
         'Prophet': model_from_json(open('wau_prophet_model.json', 'r').read()),
         'ARIMA': pickle.load(open('wau_arima_model.pkl', 'rb')),
-        'NeuralProphet': pickle.load(open('wau_neuralprophet_model.pkl', 'rb')),
+        'NeuralProphet': pickle.load(open('wau_np_model.pkl', 'rb')),
         'ExponentialSmoothing': pickle.load(open('wau_es_model.pkl', 'rb'))
     }
 }
