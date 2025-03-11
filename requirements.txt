@@ -2,6 +2,12 @@ Flask
 numpy
 pandas
 prophet
+NeuralProphet
+ExponentialSmoothing
+scikit-learn
+matplotlib
+seaborn
+prophet
 python-dateutil
 Flask-Cors
 gunicorn
