@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaria Cases Forecasting</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Malaria Cases Forecasting</h1>
+        <form id="forecastForm">
+            <label for="region">Select Region:</label>
+            <select id="region" name="region" required>
+                <option value="juba">Juba</option>
+                <option value="yei">Yei</option>
+                <option value="wau">Wau</option>
+            </select>
+
+            <label for="model">Select Model:</label>
+            <select id="model" name="model" required>
+                <option value="ARIMA">ARIMA</option>
+                <option value="NeuralProphet">Neural Prophet</option>
+                <option value="Prophet">Prophet</option>
+            </select>
+
+            <label for="periods">Enter number of months to forecast:</label>
+            <input type="number" id="periods" name="periods" required min="1">
+
+            <label for="temperature">Enter the temperature (in °C):</label>
+            <input type="number" id="temperature" name="temperature" required>
+
+            <label for="rainfall">Enter rainfall (in mm):</label>
+            <input type="number" id="rainfall" name="rainfall" required>
+
+            <button type="button" onclick="submitForecast()">Forecast</button>
+        </form>
+
+        <div id="forecastResult"></div>
+    </div>
+
+    <script>
+        function submitForecast() {
+            // Collect input values
+            const region = document.getElementById('region').value;
+            const model = document.getElementById('model').value;
+            const periods = document.getElementById('periods').value;
+            const temperature = document.getElementById('temperature').value;
+            const rainfall = document.getElementById('rainfall').value;
+
+            // Get current date in YYYY-MM-DD format
+            const currentDate = new Date().toISOString().split('T')[0];
+
+            // Prepare payload
+            const data = {
+                region: region,
+                model_type: model,
+                date: currentDate,
+                Temperature: temperature,
+                Rainfall: rainfall,
+                periods: periods
+            };
+
+            // Send POST request
+            fetch('/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('forecastResult').innerHTML = `
+                        <h3>Forecast Results for ${data.region}:</h3>
+                        <p><strong>Model:</strong> ${data.model}</p>
+                        <p><strong>Forecasted Cases:</strong> ${data.result}</p>
+                        <button onclick="downloadCSV(${JSON.stringify(data.forecast)})">Download Forecast as CSV</button>
+                    `;
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching forecast:', error);
+                alert('Unable to fetch the forecast. Please try again.');
+            });
+        }
+
+        function downloadCSV(forecastData) {
+            fetch('/download', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ forecast: forecastData })
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'forecast.csv';
+                a.click();
+            })
+            .catch(error => {
+                console.error('Error downloading CSV:', error);
+                alert('Unable to download the forecast results.');
+            });
+        }
+    </script>
+</body>
+</html>
