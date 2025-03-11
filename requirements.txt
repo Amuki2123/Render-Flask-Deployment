@@ -4,3 +4,4 @@ pandas
 prophet
 python-dateutil
 Flask-Cors
+gunicorn
