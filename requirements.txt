@@ -2,7 +2,7 @@ Flask
 numpy
 pandas
 prophet
-NeuralProphet
+neuralprophet
 pmdarima
 pickle-mixin
 jsonschema
@@ -12,7 +12,6 @@ seaborn
 keras
 scikit-learn
 statsmodels
-scikit-learn
 python-dateutil
 Flask-Cors
 gunicorn
