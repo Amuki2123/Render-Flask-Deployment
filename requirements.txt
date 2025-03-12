@@ -9,6 +9,7 @@ jsonschema
 joblib
 matplotlib
 seaborn
+tensorflow
 keras
 scikit-learn
 statsmodels
