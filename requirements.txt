@@ -13,7 +13,6 @@ keras
 scikit-learn
 statsmodels
 scikit-learn
-seaborn
 python-dateutil
 Flask-Cors
 gunicorn
