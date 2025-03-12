@@ -9,7 +9,7 @@ jsonschema
 joblib
 matplotlib
 seaborn
-tensorflow
+tensorflow==2.12.0
 keras
 scikit-learn
 statsmodels
